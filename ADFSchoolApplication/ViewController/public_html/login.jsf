@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:document title="untitled1.jsf" id="d1">
+        <af:form id="f1">
+            <af:panelSplitter id="ps1" orientation="vertical">
+                <f:facet name="first">
+                    <af:panelGroupLayout id="pgl1" layout="vertical">
+                        <af:image source="/images/schoollogo.png" id="i1"/>
+                        <af:spacer width="10" height="10" id="s1"/>
+                        <af:outputText value="School Management System" id="ot1"/>
+                        <af:spacer width="10" height="10" id="s2"/>
+                        <af:panelFormLayout id="pfl1">
+                            <f:facet name="footer">
+                                <af:button text="Login" id="b1" action="#{userBean.loginAction}"/>
+                            </f:facet>
+                            <af:inputText label="UserName" id="it1" required="true"
+                                          binding="#{userBean.userNameInputText}"/>
+                            <af:inputText label="Password" id="it2" required="true" secret="true"
+                                          binding="#{userBean.passwordInputText}"/>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
+                <f:facet name="second"/>
+            </af:panelSplitter>
+        </af:form>
+    </af:document>
+</f:view>

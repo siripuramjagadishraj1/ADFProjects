@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:document title="studentsx.jsf" id="d1">
+        <af:messages id="m1"/>
+        <af:form id="f1">
+            <af:pageTemplate viewId="/studentTemplateDef.jsf" id="pt1">
+                <f:facet name="body">
+                    <af:panelCollection id="pc1">
+                        <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar id="t3">
+                                <af:button text="Export Excel" id="b5">
+                                    <af:exportCollectionActionListener type="excelHTML" exportedId="t1"
+                                                                       filename="students.xlsx" title="All Students"/>
+                                </af:button>
+                            </af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
+                        <f:facet name="secondaryToolbar">
+                            <af:toolbar id="t2">
+                                <af:button actionListener="#{bindings.CreateInsert.execute}" text="CreateInsert"
+                                           disabled="#{!bindings.CreateInsert.enabled}" id="b1"/>
+                                <af:button actionListener="#{bindings.Delete.execute}" text="Delete"
+                                           disabled="#{!bindings.Delete.enabled}" id="b2">
+                                    <af:showPopupBehavior popupId="p1" triggerType="action"/>
+                                </af:button>
+                                <af:button actionListener="#{bindings.Commit.execute}" text="Commit"
+                                           disabled="false" id="b3"/>
+                                <af:button actionListener="#{bindings.Rollback.execute}" text="Rollback"
+                                           disabled="false" immediate="true" id="b4">
+                                    <af:resetActionListener/>
+                                </af:button>
+                                <af:popup childCreation="deferred" autoCancel="disabled" id="p1"
+                                          contentDelivery="lazyUncached">
+                                    <!--<af:outputText value="#{bindings.StudentId.inputValue}"
+                                                   shortDesc="#{bindings.StudentId.hints.tooltip}" id="ot2">
+                                        <af:convertNumber groupingUsed="false" pattern="#{bindings.StudentId.format}"/>
+                                    </af:outputText>-->
+                                    <af:dialog id="d2" title="Delete Student Conf"
+                                               dialogListener="#{studentBean.studentDeleteListener}">
+                                        <f:facet name="buttonBar">
+                                            <af:outputText value="Are u sure u want to delete student ( #{bindings.StudentId.inputValue} ) ?" id="ot1"/>
+                                        </f:facet>
+                                    </af:dialog>
+                                </af:popup>
+                            </af:toolbar>
+                        </f:facet>
+                        <af:table value="#{bindings.StudentsView1.collectionModel}" var="row"
+                                  rows="#{bindings.StudentsView1.rangeSize}"
+                                  emptyText="#{bindings.StudentsView1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                  rowBandingInterval="0"
+                                  selectedRowKeys="#{bindings.StudentsView1.collectionModel.selectedRow}"
+                                  selectionListener="#{bindings.StudentsView1.collectionModel.makeCurrent}"
+                                  rowSelection="single" fetchSize="#{bindings.StudentsView1.rangeSize}"
+                                  filterModel="#{bindings.StudentsView1Query.queryDescriptor}"
+                                  queryListener="#{bindings.StudentsView1Query.processQuery}" filterVisible="true"
+                                  varStatus="vs" id="t1" partialTriggers="::b1 ::b2">
+                            <af:column id="c10" width="14" headerNoWrap="false" rowHeader="true"/>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentId.name}" filterable="true"
+                                       sortable="true" headerText="#{bindings.StudentsView1.hints.StudentId.label}"
+                                       id="c1">
+                                <af:inputText value="#{row.bindings.StudentId.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentId.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentId.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentId.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentId.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentId.tooltip}" id="it1"
+                                              readOnly="true">
+                                    <f:validator binding="#{row.bindings.StudentId.validator}"/>
+                                    <af:convertNumber groupingUsed="false"
+                                                      pattern="#{bindings.StudentsView1.hints.StudentId.format}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentName.name}" filterable="true"
+                                       sortable="true" headerText="#{bindings.StudentsView1.hints.StudentName.label}"
+                                       id="c2">
+                                <af:inputText value="#{row.bindings.StudentName.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentName.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentName.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentName.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentName.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentName.tooltip}" id="it2">
+                                    <f:validator binding="#{row.bindings.StudentName.validator}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentGendar.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentGendar.label}" id="c3">
+                                <af:selectOneChoice value="#{row.bindings.StudentGendar.inputValue}"
+                                                    label="#{row.bindings.StudentGendar.label}"
+                                                    required="#{bindings.StudentsView1.hints.StudentGendar.mandatory}"
+                                                    shortDesc="#{bindings.StudentsView1.hints.StudentGendar.tooltip}"
+                                                    id="soc1">
+                                    <f:selectItems value="#{row.bindings.StudentGendar.items}" id="si1"/>
+                                    <f:validator binding="#{row.bindings.StudentGendar.validator}"/>
+                                </af:selectOneChoice>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentAddress.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentAddress.label}" id="c4">
+                                <af:inputText value="#{row.bindings.StudentAddress.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentAddress.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentAddress.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentAddress.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentAddress.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentAddress.tooltip}"
+                                              id="it3">
+                                    <f:validator binding="#{row.bindings.StudentAddress.validator}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentDob.name}" filterable="true"
+                                       sortable="true" headerText="#{bindings.StudentsView1.hints.StudentDob.label}"
+                                       id="c5">
+                                <f:facet name="filter">
+                                    <af:inputDate value="#{bindings.StudentsView1Query.queryDescriptor.filterConjunctionCriterion.criterionMap.StudentDob.value}"
+                                                  id="id1">
+                                        <af:convertDateTime pattern="#{bindings.StudentsView1.hints.StudentDob.format}"/>
+                                    </af:inputDate>
+                                </f:facet>
+                                <af:inputDate value="#{row.bindings.StudentDob.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentDob.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentDob.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentDob.displayWidth}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentDob.tooltip}" id="id2">
+                                    <f:validator binding="#{row.bindings.StudentDob.validator}"/>
+                                    <af:convertDateTime pattern="#{bindings.StudentsView1.hints.StudentDob.format}"/>
+                                </af:inputDate>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentParentName.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentParentName.label}" id="c6">
+                                <af:inputText value="#{row.bindings.StudentParentName.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentParentName.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentParentName.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentParentName.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentParentName.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentParentName.tooltip}"
+                                              id="it4">
+                                    <f:validator binding="#{row.bindings.StudentParentName.validator}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentParentEmail.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentParentEmail.label}" id="c7">
+                                <af:inputText value="#{row.bindings.StudentParentEmail.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentParentEmail.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentParentEmail.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentParentEmail.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentParentEmail.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentParentEmail.tooltip}"
+                                              id="it5">
+                                    <f:validator binding="#{row.bindings.StudentParentEmail.validator}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentParentPhone.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentParentPhone.label}" id="c8">
+                                <af:inputText value="#{row.bindings.StudentParentPhone.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentParentPhone.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentParentPhone.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentParentPhone.displayWidth}"
+                                              maximumLength="#{bindings.StudentsView1.hints.StudentParentPhone.precision}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentParentPhone.tooltip}"
+                                              id="it6">
+                                    <f:validator binding="#{row.bindings.StudentParentPhone.validator}"/>
+                                </af:inputText>
+                            </af:column>
+                            <af:column sortProperty="#{bindings.StudentsView1.hints.StudentCreatedDate.name}"
+                                       filterable="true" sortable="true"
+                                       headerText="#{bindings.StudentsView1.hints.StudentCreatedDate.label}" id="c9">
+                                <f:facet name="filter">
+                                    <af:inputDate value="#{bindings.StudentsView1Query.queryDescriptor.filterConjunctionCriterion.criterionMap.StudentCreatedDate.value}"
+                                                  id="id3">
+                                        <af:convertDateTime pattern="#{bindings.StudentsView1.hints.StudentCreatedDate.format}"/>
+                                    </af:inputDate>
+                                </f:facet>
+                                <af:inputDate value="#{row.bindings.StudentCreatedDate.inputValue}"
+                                              label="#{bindings.StudentsView1.hints.StudentCreatedDate.label}"
+                                              required="#{bindings.StudentsView1.hints.StudentCreatedDate.mandatory}"
+                                              columns="#{bindings.StudentsView1.hints.StudentCreatedDate.displayWidth}"
+                                              shortDesc="#{bindings.StudentsView1.hints.StudentCreatedDate.tooltip}"
+                                              id="id4">
+                                    <f:validator binding="#{row.bindings.StudentCreatedDate.validator}"/>
+                                    <af:convertDateTime pattern="#{bindings.StudentsView1.hints.StudentCreatedDate.format}"/>
+                                </af:inputDate>
+                            </af:column>
+                        </af:table>
+                    </af:panelCollection>
+                </f:facet>
+                <f:attribute name="pageTitile" value="Studentsx"/>
+            </af:pageTemplate>
+        </af:form>
+    </af:document>
+</f:view>

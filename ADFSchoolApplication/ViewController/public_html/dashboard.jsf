@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+        xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
+    <af:document title="School || DashBoard" id="d1">
+        <af:messages id="m1"/>
+        <af:form id="f1">
+            <af:pageTemplate viewId="/studentTemplateDef.jsf" id="pt1">
+                <f:facet name="body">
+                    <af:panelSplitter id="ps1">
+                        <f:facet name="first">
+                            <af:panelGroupLayout id="pgl1"/>
+                        </f:facet>
+                        <f:facet name="second">
+                            <af:panelDashboard id="pd1">
+                                <af:panelBox text="Students in Class Room" id="pb1">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:barChart id="barChart1" var="row"
+                                                  value="#{bindings.RONumberOfStudentInClassView1.collectionModel}">
+                                        <f:facet name="dataStamp">
+                                            <dvt:chartDataItem id="di1" value="#{row.Selectobjects0}"
+                                                               group="#{row.ClassroomFk}"
+                                                               series="#{bindings.RONumberOfStudentInClassView1.hints.Selectobjects0.label}"/>
+                                        </f:facet>
+                                    </dvt:barChart>
+                                </af:panelBox>
+                                <af:panelBox text="Teachers in Class Room" id="pb2">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:pieChart id="pieChart1" var="row"
+                                                  value="#{bindings.ROGraph2_1.collectionModel}">
+                                        <dvt:chartLegend id="cl1"/>
+                                        <dvt:pieDataItem id="di2" value="#{row.ClassroomFk}"
+                                                         label="#{row.Selectobjects0}"/>
+                                    </dvt:pieChart>
+                                </af:panelBox>
+                                <af:panelBox text="Average Pass Students in Class" id="pb3">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:dialGauge id="dialGauge1" indicator="needleAlta" minimum="0"
+                                                   maximum="#{bindings.AvgPass1.inputValue}"
+                                                   value="#{bindings.AvgPass.inputValue}">
+                                        <dvt:gaugeMetricLabel rendered="true" id="gml1"/>
+                                    </dvt:dialGauge>
+                                </af:panelBox>
+                                <af:panelBox text="Students in Grade Number" id="pb4">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:lineChart id="lineChart1" var="row"
+                                                   value="#{bindings.ROGraph4_1.collectionModel}">
+                                        <dvt:chartLegend id="cl2"/>
+                                        <f:facet name="dataStamp">
+                                            <dvt:chartDataItem id="di3" value="#{row.Selectobjects0}"
+                                                               group="#{row.GradeNumber}"
+                                                               series="#{bindings.ROGraph4_1.hints.Selectobjects0.label}"/>
+                                        </f:facet>
+                                    </dvt:lineChart>
+                                </af:panelBox>
+                            </af:panelDashboard>
+                        </f:facet>
+                    </af:panelSplitter>
+                </f:facet>
+                <f:attribute name="pageTitile" value="DashBoard"/>
+            </af:pageTemplate>
+        </af:form>
+    </af:document>
+</f:view>

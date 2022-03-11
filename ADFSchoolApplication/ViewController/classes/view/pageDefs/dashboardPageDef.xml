@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.1.3.10.47" id="dashboardPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="RONumberOfStudentInClassView1" RangeSize="-1" DataControl="AppModuleDataControl"
+              id="RONumberOfStudentInClassView1Iterator"/>
+    <iterator Binds="ROGraph2_1" RangeSize="-1" DataControl="AppModuleDataControl" id="ROGraph2_1Iterator"/>
+    <iterator Binds="ROGraph4_1" RangeSize="-1" DataControl="AppModuleDataControl" id="ROGraph4_1Iterator"/>
+    <iterator Binds="RoGraph3_1" RangeSize="1" DataControl="AppModuleDataControl" id="RoGraph3_1Iterator"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="RONumberOfStudentInClassView1Iterator" id="RONumberOfStudentInClassView1"
+          ChangeEventPolicy="ppr">
+      <nodeDefinition DefName="model.vo.RONumberOfStudentInClassView" Name="RONumberOfStudentInClassView1">
+        <AttrNames>
+          <Item Value="Selectobjects0"/>
+          <Item Value="ClassroomFk"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="ROGraph2_1Iterator" id="ROGraph2_1" ChangeEventPolicy="ppr">
+      <nodeDefinition DefName="model.vo.ROGraph2" Name="ROGraph2_1">
+        <AttrNames>
+          <Item Value="ClassroomFk"/>
+          <Item Value="Selectobjects0"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="ROGraph4_1Iterator" id="ROGraph4_1" ChangeEventPolicy="ppr">
+      <nodeDefinition DefName="model.vo.ROGraph4" Name="ROGraph4_1">
+        <AttrNames>
+          <Item Value="Selectobjects0"/>
+          <Item Value="GradeNumber"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="RoGraph3_1Iterator" id="AvgPass">
+      <AttrNames>
+        <Item Value="AvgPass"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues id="AvgPass1" IterBinding="RoGraph3_1Iterator">
+      <AttrNames>
+        <Item Value="AvgPass"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>
